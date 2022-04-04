@@ -6,7 +6,7 @@ class Server:
     __port = None
     __connected = False
 
-    def __init__(self, host, port):
+    def __init__(self, host=None, port=None):
         self.__port = port
         self.__host = host
 
@@ -15,11 +15,11 @@ class Server:
         self.__server.bind((host or self.__host, port or self.__port))
         self.__server.listen()
         self.__connected = True
+        print("Server started and running")
         conn, addr = self.__server.accept()
         print(f"Connected by {addr}")
         with conn:
             while True:
-                # conn, addr = self.__server.accept()
                 msg = conn.recv(1024)
                 if(msg):
                     print(f"address {addr} sent: {msg.decode()}")
@@ -32,6 +32,3 @@ class Server:
         self.__server.close()
         self.__connected = False
 
-
-sockeServer = Server('127.0.0.1', 4000)
-sockeServer.start()
