@@ -5,6 +5,7 @@ class Server:
     __host = None
     __port = None
     __connected = False
+    __message = None
 
     def __init__(self, host=None, port=None):
         self.__port = port
@@ -21,10 +22,20 @@ class Server:
         with conn:
             while True:
                 msg = conn.recv(1024)
-                if(msg):
-                    print(f"address {addr} sent: {msg.decode()}")
+                if not msg:
+                    self.stop()
+                    self.start()
+                data = f"address {addr} sent: {msg.decode()}"
+                print(data)
+                self.__message = data
 
+    def isRunning(self):
+        return self.__connected
 
+    def getMessage(self):
+        return self.__message
+    def clearMessage(self):
+        self.__message = None
     def stop(self):
         print('closing')
         if not self.__server or not self.__connected:
