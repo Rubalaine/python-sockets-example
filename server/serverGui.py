@@ -30,6 +30,10 @@ def start(host, port):
 
     _server = threading.Thread(target=socketServer.start, args=(host,port), daemon=True)
     _server.start()
+
+    if socketServer.isRunning():
+        userAlert.set("Server up and running")
+
     
 
 # Top text to display the status of the app: Disconnected|Connected

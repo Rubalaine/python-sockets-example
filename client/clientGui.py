@@ -36,7 +36,7 @@ connectionText = tk.Message(window, pady=20, width=180, textvariable=userAlert)
 userAlert.set("Disconnected")
 connectionText.pack()
 
-# hos input with label
+# host input with label
 tk.Label(window, text="enter server host").pack()
 hostInput = tk.Entry(window)
 hostInput.pack()
