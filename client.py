@@ -43,9 +43,9 @@ class Client:
             self.__connected = False
             print('error sending message, make sure the server is running')
 
-    def reconnect():
+    def reconnect(self):
         try:
-            self.__client.connect((host or self.__host, port or self.__port))
+            self.__client.connect((self.__host, self.__port))
             self.__connected = True
             print('Connected succesfully')
         except:

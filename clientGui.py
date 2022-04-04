@@ -5,7 +5,7 @@ from client import Client
 socketClient = Client()
 window = tk.Tk()
 window.title("Client app")
-window.geometry("200x300")
+window.geometry("250x500")
 userAlert = tk.StringVar()
 def message():
     if not socketClient.isConnected():
@@ -21,6 +21,11 @@ def connect(host, port):
         return
     userAlert.set("Connected")
     tk.messagebox.showinfo(title="connected", message="connected to the server!")
+
+def disconnect():
+    socketClient.closeConnection()
+    if not socketClient.isConnected():
+        userAlert.set("Disconnected")
 # def connect(host, port):
 #     socketClient.connect(host, port)
 #     while socketClient.isConnected():
@@ -44,6 +49,7 @@ messageInput = tk.Entry(window)
 messageInput.pack(pady=5)
 
 tk.Button(window, text="send message", command= lambda: message()).pack(pady=5)
+tk.Button(window, text="Disconnect", command= lambda: disconnect()).pack(pady=5)
 
 # greeting = tk.Label(window, text="Hello, Tkinter", fg="white", bg="blue")
 # server = None
