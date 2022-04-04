@@ -23,9 +23,9 @@ def connect(host, port):
     tk.messagebox.showinfo(title="connected", message="connected to the server!")
 
 def disconnect():
-    socketClient.closeConnection()
-    if not socketClient.isConnected():
-        userAlert.set("Disconnected")
+    if socketClient.isConnected():
+        socketClient.closeConnection()
+    userAlert.set("Disconnected")
 # def connect(host, port):
 #     socketClient.connect(host, port)
 #     while socketClient.isConnected():
@@ -49,7 +49,7 @@ messageInput = tk.Entry(window)
 messageInput.pack(pady=5)
 
 tk.Button(window, text="send message", command= lambda: message()).pack(pady=5)
-tk.Button(window, text="Disconnect", command= lambda: disconnect()).pack(pady=5)
+tk.Button(window, text="Disconnect", command= lambda: disconnect()).pack(pady=10)
 
 # greeting = tk.Label(window, text="Hello, Tkinter", fg="white", bg="blue")
 # server = None
