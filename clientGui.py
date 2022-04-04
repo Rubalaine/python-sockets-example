@@ -7,6 +7,8 @@ window = tk.Tk()
 window.title("Client app")
 window.geometry("250x500")
 userAlert = tk.StringVar()
+
+# send message from gui, only message if is not connected 
 def message():
     if not socketClient.isConnected():
         tk.messagebox.showinfo(title="connection error", message="Make sure that you are connected to a server to send a message!")
@@ -14,6 +16,7 @@ def message():
     socketClient.sendMessage(messageInput.get())
     messageInput.delete(0, 'end')
 
+# connect from gui, will connect and set top message to be "Connected"
 def connect(host, port):
     connection = socketClient.connect(host,port)
     if not connection:
@@ -22,81 +25,39 @@ def connect(host, port):
     userAlert.set("Connected")
     tk.messagebox.showinfo(title="connected", message="connected to the server!")
 
+# disconnect from gui, if is connected will disconnect the current connection
 def disconnect():
     if socketClient.isConnected():
         socketClient.closeConnection()
     userAlert.set("Disconnected")
-# def connect(host, port):
-#     socketClient.connect(host, port)
-#     while socketClient.isConnected():
-#         message = input("write a command: ")
-#         if message == "close":
-#             server.close()
 
+# Top text to display the status of the app: Disconnected|Connected
 connectionText = tk.Message(window, pady=20, width=180, textvariable=userAlert)
 userAlert.set("Disconnected")
 connectionText.pack()
 
+# hos input with label
 tk.Label(window, text="enter server host").pack()
 hostInput = tk.Entry(window)
 hostInput.pack()
+
+# port input with label
 tk.Label(window, text="enter server port").pack()
 portInput = tk.Entry(window)
 portInput.pack(pady=5)
+
+# button to connect to the server
 tk.Button(window, text="connect to server", command= lambda: connect(hostInput.get(), int(portInput.get()))).pack(pady=5)
+
+# message input with a label
 tk.Label(window, text="write message to server").pack()
 messageInput = tk.Entry(window)
 messageInput.pack(pady=5)
 
+# send message button
 tk.Button(window, text="send message", command= lambda: message()).pack(pady=5)
+
+# disconnect button
 tk.Button(window, text="Disconnect", command= lambda: disconnect()).pack(pady=10)
-
-# greeting = tk.Label(window, text="Hello, Tkinter", fg="white", bg="blue")
-# server = None
-# def closeApp():
-#     window.destroy()
-# closeButton =  tk.Button(window, text="Close application", command=closeApp).grid(row=5, column=1)
-
-# tk.Label(window,text="Server address:").grid(row=0)
-# tk.Label(window,text="Server port:").grid(row=1)
-
-# addressInput = tk.Entry(window)
-# portInput = tk.Entry(window)
-
-# addressInput.grid(row=0, column=1)
-# portInput.grid(row=1, column=1)
-
-# def createMessageInput():
-#     tk.Label(window, text="message:").grid(row=6)
-#     msg
-# def startServer():
-#     address = addressInput.get()
-#     port = int(portInput.get())
-#     if(not address and not port):
-#         return tk.messagebox.showinfo(title="Invalid", message="Please provide the address and the port!")
-#     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-#         server = s
-#         server.connect((address, port))
-#         while True:
-#             message = input("Envie uma mensagem ao servidor: ")
-#             if message == "close":
-#                 server.close()
-#                 window.destroy()
-#             server.sendall(str.encode(message))
-
-
-# button = tk.Button(
-#         window,
-#         text="Conect to server",
-#         command=startServer
-#     ).grid(row=4, column=1)
-
-
-
-# # greeting.pack()
-# # button.pack()
-# # closeButton.pack()
-    
-
 
 window.mainloop()
